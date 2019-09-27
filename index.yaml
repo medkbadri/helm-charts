@@ -8,6 +8,6 @@ entries:
     digest: 2bc203e164b580c68b6d7dcffccadddcd8c6f9994257f28807a72eb3d13caea9
     name: guestbook
     urls:
-    - https://github.com/medkbadri/helm-charts/guestbook-0.1.0.tgz
+    - guestbook-0.1.0.tgz
     version: 0.1.0
 generated: "2019-09-27T16:55:58.968921142Z"
