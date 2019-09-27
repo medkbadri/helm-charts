@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.redis_master.name }}
+spec:
+  selector:
+    matchLabels:
+      app: redis
+      role: master
+      tier: backend
+  replicas: {{ .Values.redis_master.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: redis
+        role: master
+        tier: backend
+    spec:
+      containers:
+      - name: {{ .Values.redis_master.container.name }}
+        image: "{{ .Values.redis_master.image.repository }}:{{ .Values.redis_master.image.tag }}"
+        resources:
+          requests:
+            cpu: {{ .Values.redis_master.requests.cpu }}
+            memory: {{ .Values.redis_master.requests.memory }}
+        ports:
+        - containerPort: {{ .Values.redis_master.service.port }}

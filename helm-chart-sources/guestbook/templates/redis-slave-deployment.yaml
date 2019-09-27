@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.redis_slave.name }}
+spec:
+  selector:
+    matchLabels:
+      app: redis
+      role: slave
+      tier: backend
+  replicas: {{ .Values.redis_slave.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: redis
+        role: slave
+        tier: backend
+    spec:
+      containers:
+      - name: {{ .Values.redis_slave.container.name }}
+        image: "{{ .Values.redis_slave.image.repository }}:{{ .Values.redis_slave.image.tag }}"
+        resources:
+          requests:
+            cpu: {{ .Values.redis_slave.requests.cpu }}
+            memory: {{ .Values.redis_slave.requests.memory }}
+        ports:
+        - containerPort: {{ .Values.redis_slave.service.port }}

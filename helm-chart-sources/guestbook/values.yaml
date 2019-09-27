@@ -1,0 +1,53 @@
+# Default values for guestbook.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+frontend:
+  nameOverride: guestbook
+  replicaCount: 3
+  image:
+    repository: gcr.io/google-samples/gb-frontend
+    tag: v4
+  container:
+    name: php-redis
+  requests:
+    cpu: 100m
+    memory: 100Mi
+  service:
+    type: NodePort
+    port: 80
+  ingress:
+    enabled: false
+
+redis_master:
+  name: redis-master
+  replicaCount: 1
+  container:
+    name: master
+  image:
+    repository: k8s.gcr.io/redis
+    tag: e2e
+  requests:
+    cpu: 100m
+    memory: 100Mi
+  service:
+    type: ClusterIP
+    port: 6379
+    targetPort: 6379
+
+redis_slave:
+  name: redis-slave
+  replicaCount: 2
+  container:
+    name: slave
+  image:
+    repository: gcr.io/google_samples/gb-redisslave
+    tag: v1
+  requests:
+    cpu: 100m
+    memory: 100Mi
+  service:
+    type: ClusterIP
+    port: 6379
+    targetPort: 6379
+

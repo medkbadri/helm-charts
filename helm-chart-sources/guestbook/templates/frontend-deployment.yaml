@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "guestbook.name" . }}
+  labels:
+    app: {{ .Release.Name }}
+    tier: frontend
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      tier: frontend
+  replicas: {{ .Values.frontend.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+        tier: frontend
+    spec:
+      containers:
+      - name: {{ .Values.frontend.container.name }}
+        image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+        resources:
+          requests:
+            cpu: {{ .Values.frontend.requests.cpu }}
+            memory: {{ .Values.frontend.requests.memory }}
+        env:
+        - name: GET_HOSTS_FROM
+          value: dns
+        ports:
+        - containerPort: {{ .Values.frontend.service.port }}
